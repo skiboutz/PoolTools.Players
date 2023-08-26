@@ -12,6 +12,7 @@ public class Player : BaseAuditableEntity
     public Team? Team { get; set; }
     public required  string Position { get; set; }
 
+    public int? ContractId { get; set; }
     public Contract? Contract { get; set; }
 
 

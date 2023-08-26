@@ -34,7 +34,7 @@ public static class ConfigureServices
         services.AddScoped<ApplicationDbContextInitialiser>();
 
         services.AddAuthentication()
-            .AddIdentityBearerToken<ApplicationUser>();
+            .AddBearerToken(IdentityConstants.BearerScheme);
 
         services.AddAuthorizationBuilder();
 

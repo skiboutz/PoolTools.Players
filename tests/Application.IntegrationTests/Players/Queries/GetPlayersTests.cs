@@ -15,6 +15,8 @@ public class GetPlayersTests : BaseTestFixture
         var team = new Team { Code = "TST", City = "Testville", Name = "Testers" };
         var teamId = await AddAsync(team);
 
+        var contractGenerator = new Faker<Contract>()
+            .RuleFor(c => c.ExpirationYear, f => DateTime.Now.Year + f.Random.Int(1, 8));
 
         var playerGenerator = new Faker<Domain.Entities.Player>()
             .RuleFor(p => p.FirstName, f => f.Person.FirstName)

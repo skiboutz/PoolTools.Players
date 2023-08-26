@@ -20,7 +20,5 @@ public class GetPlayersQueryHandler : IRequestHandler<GetPlayersQuery, List<Play
                 .ProjectTo<PlayerDto>(_mapper.ConfigurationProvider)
                 .OrderBy(t => t.LastName)
                 .ToListAsync(cancellationToken);
-
-
     }
 }

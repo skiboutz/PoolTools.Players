@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PoolTools.Player.Domain.Entities;
 
 namespace PoolTools.Player.Infrastructure.Data.Configurations;
 public sealed class PlayerConfiguration : IEntityTypeConfiguration<Domain.Entities.Player>
@@ -22,7 +23,8 @@ public sealed class PlayerConfiguration : IEntityTypeConfiguration<Domain.Entiti
 
         builder.Navigation(p => p.Team).AutoInclude();
 
-        builder.HasOne(p => p.Contract).WithOne(c => c.Player).HasForeignKey("ContractId");
+        builder.HasOne(p => p.Contract).WithOne(c => c.Player).HasForeignKey<Domain.Entities.Player>(p => p.ContractId);
+
         builder.Navigation(p => p.Contract).AutoInclude();
     }
 }

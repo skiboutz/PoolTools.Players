@@ -1,9 +1,9 @@
 ﻿namespace PoolTools.Player.Domain.Entities;
 public class Contract : BaseAuditableEntity
 {
-    public required Player Player { get; set; }
-    public int ExpirationYear { get; set; }
-    public decimal Salary { get; set; }
-    public decimal CapHit { get; set; }
-    public decimal AnnualAverage { get; set; }
+    public Player Player { get; set; } = default!;
+    public required int ExpirationYear { get; set; }
+    public required decimal Salary { get; set; }
+    public required decimal CapHit { get; set; }
+    public required decimal AnnualAverage { get; set; }
 }
