@@ -16,11 +16,11 @@ public static class PlayerEndpoints
         var group = routes.MapGroup("/api/Player").WithTags(nameof(Player));
 
         group.MapGet("/", async (IMediator mediator, CancellationToken cancellationToken) => await mediator.Send(new GetPlayersQuery(), cancellationToken))
-        .CacheOutput(c => c.Expire(TimeSpan.FromDays(1)))
+        .CacheOutput(c => c.Expire(TimeSpan.FromHours(1)))
         .WithName("GetAllPlayers")
         .WithOpenApi();
 
-        group.MapGet("/{id}", async Task<Results<Ok<PlayerDto>, NotFound>> (int id, IMediator mediator, CancellationToken cancellationToken) =>
+        group.MapGet("/{id}", async Task<Results<Ok<PlayerDetailsDto>, NotFound>> (int id, IMediator mediator, CancellationToken cancellationToken) =>
         {
             var request = new GetPlayerByIdQuery { PlayerId = id };
 
@@ -28,7 +28,7 @@ public static class PlayerEndpoints
 
             return foundPlayer is null ? TypedResults.NotFound() : TypedResults.Ok(foundPlayer);
         })
-        .CacheOutput(c => c.Expire(TimeSpan.FromDays(1)))
+        .CacheOutput(c => c.Expire(TimeSpan.FromHours(1)))
         .WithName("GetPlayerById")
         .WithOpenApi();
 

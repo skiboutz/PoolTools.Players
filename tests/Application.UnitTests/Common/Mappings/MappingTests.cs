@@ -6,6 +6,7 @@ using NUnit.Framework;
 using PoolTools.Player.Domain.Entities;
 using PoolTools.Player.Application.Players.Queries.GetPlayers;
 using PoolTools.Player.Application.Players.Commands.AddPlayer;
+using PoolTools.Player.Application.Players.Queries.GetPlayerById;
 
 namespace PoolTools.Player.Application.UnitTests.Common.Mappings;
 

@@ -12,9 +12,6 @@ public record PlayerDto
     public decimal? CapHit { get; set; }
     public decimal? AAV { get; set; }
 
-    public int YearRemaining { get; set; } = 0;
-
-    public required int Age { get; set; }
     private class Mapping : Profile
     {
         public Mapping()
@@ -23,9 +20,7 @@ public record PlayerDto
                 .ForMember(p => p.Team, m => m.MapFrom(d => d.Team == null ? null : d.Team.Code))
                 .ForMember(p => p.AAV, m => m.MapFrom(d => d.Contract == null ? (decimal?)null : d.Contract.AnnualAverage))
                 .ForMember(p => p.Salary, m => m.MapFrom(d => d.Contract == null ? (decimal?)null : d.Contract.Salary))
-                .ForMember(p => p.CapHit, m => m.MapFrom(d => d.Contract == null ? (decimal?)null : d.Contract.CapHit))
-                .ForMember(p => p.Age, m => m.Ignore())
-                .ForMember(p => p.YearRemaining, m => m.Ignore());
+                .ForMember(p => p.CapHit, m => m.MapFrom(d => d.Contract == null ? (decimal?)null : d.Contract.CapHit));
         }
     }
 }

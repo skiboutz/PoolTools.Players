@@ -1,9 +1,8 @@
 ﻿using PoolTools.Player.Application.Common.Interfaces;
-using PoolTools.Player.Application.Players.Queries.GetPlayers;
 
 namespace PoolTools.Player.Application.Players.Queries.GetPlayerById;
 
-public class GetPlayerByIdQueryHandler : IRequestHandler<GetPlayerByIdQuery, PlayerDto>
+public class GetPlayerByIdQueryHandler : IRequestHandler<GetPlayerByIdQuery, PlayerDetailsDto>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -16,13 +15,13 @@ public class GetPlayerByIdQueryHandler : IRequestHandler<GetPlayerByIdQuery, Pla
         _dateTime = dateTime;
     }
 
-    public async Task<PlayerDto> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<PlayerDetailsDto> Handle(GetPlayerByIdQuery request, CancellationToken cancellationToken)
     {
         var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == request.PlayerId, cancellationToken: cancellationToken);
 
         Guard.Against.NotFound(request.PlayerId, player);
 
-        var playerDto = _mapper.Map<PlayerDto>(player);
+        var playerDto = _mapper.Map<PlayerDetailsDto>(player);
         playerDto.Age = CalculateAge(player.DateOfBirth);
         playerDto.YearRemaining = CalculateContractYearsRemaining(player.Contract?.ExpirationYear);
 
