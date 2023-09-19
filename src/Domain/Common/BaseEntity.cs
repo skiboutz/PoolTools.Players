@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PoolTools.Player.Domain.Common;
 
@@ -11,6 +12,7 @@ public abstract class BaseEntity
     private readonly List<BaseEvent> _domainEvents = new();
 
     [NotMapped]
+    [JsonIgnore]
     public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public void AddDomainEvent(BaseEvent domainEvent)

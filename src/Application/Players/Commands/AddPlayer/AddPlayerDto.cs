@@ -1,5 +1,4 @@
-﻿using PoolTools.Player.Application.Players.Queries.GetPlayers;
-using PoolTools.Player.Domain.Entities;
+﻿using PoolTools.Player.Domain.Entities;
 
 namespace PoolTools.Player.Application.Players.Commands.AddPlayer;
 

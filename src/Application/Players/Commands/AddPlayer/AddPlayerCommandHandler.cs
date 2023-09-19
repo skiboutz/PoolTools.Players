@@ -19,11 +19,11 @@ public class AddPlayerCommandHandler : IRequestHandler<AddPlayerCommand, int>
     {
         var player = _mapper.Map<Domain.Entities.Player>(request.NewPlayer);
         player.Team = await GetTeam(request.NewPlayer.Team);
+        player.AddDomainEvent(new PlayerCreatedEvent { Player = player });
 
         _context.Players.Add(player);
-        await _context.SaveChangesAsync(cancellationToken);
 
-        player.AddDomainEvent(new PlayerCreatedEvent { PlayerId = player.Id });
+        await _context.SaveChangesAsync(cancellationToken);
 
         return player.Id;
     }
