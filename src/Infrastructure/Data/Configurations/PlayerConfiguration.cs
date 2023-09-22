@@ -16,6 +16,9 @@ public sealed class PlayerConfiguration : IEntityTypeConfiguration<Domain.Entiti
         builder.Property(p => p.Position)
             .HasMaxLength(2);
 
+        builder.Property(p => p.Status)
+            .HasConversion<int>();
+
         builder.HasOne(p => p.Team).WithMany(t => t.Roster).HasForeignKey(p => p.TeamId);
 
         builder.Navigation(p => p.Team).AutoInclude();

@@ -70,7 +70,8 @@ public class TradePlayerTests : BaseTestFixture
         var player = await FindAsync<Domain.Entities.Player>(playerId);
 
         player.Should().NotBeNull();
-        player!.Team.Code.Should().Be("NEW");
+        player!.Team.Should().NotBeNull();
+        player.Team!.Code.Should().Be("NEW");
         player.LastModifiedBy.Should().NotBeNull();
         player.LastModifiedBy.Should().Be(userId);
         player.LastModified.Should().NotBeNull();
