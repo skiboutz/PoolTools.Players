@@ -1,4 +1,5 @@
 ﻿using PoolTools.Player.Domain.Entities;
+using PoolTools.Player.Domain.Enums;
 
 namespace PoolTools.Player.Application.Players.Commands.AddPlayer;
 
@@ -16,6 +17,7 @@ public class AddPlayerDto
         public Mapping()
         {
             CreateMap<AddPlayerDto, Domain.Entities.Player>()
+                .ForMember(p => p.Status, m => m.MapFrom(d => PlayerStatus.Active))
                 .ForMember(p => p.Id, m => m.Ignore())
                 .ForMember(p => p.Team, m => m.Ignore())
                 .ForMember(p => p.TeamId, m => m.Ignore())
