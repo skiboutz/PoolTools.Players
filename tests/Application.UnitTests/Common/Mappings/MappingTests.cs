@@ -31,7 +31,9 @@ public class MappingTests
 
     [Test]
     [TestCase(typeof(Domain.Entities.Player), typeof(PlayerDto))]
+    [TestCase(typeof(Domain.Entities.Player), typeof(PlayerDetailsDto))]
     [TestCase(typeof(AddPlayerDto), typeof(Domain.Entities.Player))]
+    [TestCase(typeof(ContractDto), typeof(Contract))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         var instance = GetInstanceOf(source);
