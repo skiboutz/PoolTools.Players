@@ -1,4 +1,6 @@
 
+using PoolTools.Player.Domain.Enums;
+
 namespace PoolTools.Player.Domain.Entities;
 
 
@@ -15,6 +17,7 @@ public class Player : BaseAuditableEntity
     public int? ContractId { get; set; }
     public Contract? Contract { get; set; }
 
+    public PlayerStatus Status { get; set; }
 
     public void Release()
     {

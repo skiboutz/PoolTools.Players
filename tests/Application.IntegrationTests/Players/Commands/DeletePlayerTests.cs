@@ -1,6 +1,7 @@
 ﻿using PoolTools.Player.Application.Players.Commands.AddPlayer;
 using PoolTools.Player.Application.Players.Commands.DeletePlayer;
 using PoolTools.Player.Domain.Entities;
+using PoolTools.Player.Domain.Enums;
 
 namespace PoolTools.Player.Application.IntegrationTests.Players.Commands;
 
@@ -29,7 +30,7 @@ public class DeletePlayerTests : BaseTestFixture
     }
 
     [Test]
-    public async Task ShouldDeleteTodoItem()
+    public async Task ShouldDesactivatePlayer()
     {
         await RunAsDefaultUserAsync();
         var existingTeam = new Team { Code = "TST", City = "Testville", Name = "Testers" };
@@ -41,6 +42,7 @@ public class DeletePlayerTests : BaseTestFixture
 
         var player = await FindAsync<Domain.Entities.Player>(playerId);
 
-        player.Should().BeNull();
+        player.Should().NotBeNull();
+        player!.Status.Should().Be(PlayerStatus.InActive);
     }
 }
