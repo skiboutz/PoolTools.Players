@@ -30,6 +30,11 @@ jobs:
 
       - name: Install azd
         uses: Azure/setup-azd@v0.1.0
+      
+      - name: Install dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
 
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
