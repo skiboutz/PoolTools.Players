@@ -3,6 +3,6 @@
 name: pooltools-players
 services:
   pooltools-player:
-    project: ./src
+    project: ./src/Web/Web.csproj
     language: csharp
     host: appservice
