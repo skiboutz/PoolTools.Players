@@ -2,7 +2,7 @@
 
 name: pooltools-players
 services:
-  api:
+  pooltools-player:
     project: ./src
     language: csharp
     host: appservice
