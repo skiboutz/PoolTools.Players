@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace PoolTools.Player.Application.UnitTests.Common.Exceptions;
 
+[Category("UT")]
 public class ValidationExceptionTests
 {
     [Test]

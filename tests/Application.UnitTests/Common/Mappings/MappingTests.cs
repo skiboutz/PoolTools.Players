@@ -10,6 +10,7 @@ using PoolTools.Player.Application.Players.Queries.GetPlayerById;
 
 namespace PoolTools.Player.Application.UnitTests.Common.Mappings;
 
+[Category("UT")]
 public class MappingTests
 {
     private readonly IConfigurationProvider _configuration;

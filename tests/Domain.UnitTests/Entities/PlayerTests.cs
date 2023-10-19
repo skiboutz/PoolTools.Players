@@ -6,6 +6,7 @@ using PoolTools.Player.Domain.Exceptions;
 
 namespace PoolTools.Player.Domain.UnitTests.Entities;
 
+[Category("UT")]
 public class PlayerTests
 {
     [Test]

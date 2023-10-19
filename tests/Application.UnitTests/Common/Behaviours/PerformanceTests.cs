@@ -9,6 +9,8 @@ using PoolTools.Player.Application.Common.Interfaces;
 using PoolTools.Player.Application.Players.Commands.AddPlayer;
 
 namespace PoolTools.Player.Application.UnitTests.Common.Behaviours;
+
+[Category("UT")]
 public class PerformanceTests
 {
     private Mock<ILogger<AddPlayerCommand>> _logger;
