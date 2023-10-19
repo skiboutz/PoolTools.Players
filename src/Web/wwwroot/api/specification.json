@@ -49,7 +49,7 @@
         "operationId": "PostApiUsersLogin",
         "parameters": [
           {
-            "name": "cookieMode",
+            "name": "useCookies",
             "in": "query",
             "schema": {
               "type": "boolean",
@@ -58,7 +58,7 @@
             "x-position": 2
           },
           {
-            "name": "persistCookies",
+            "name": "useSessionCookies",
             "in": "query",
             "schema": {
               "type": "boolean",
@@ -130,7 +130,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "MapIdentityApi-/api/Users/confirmEmail",
+        "operationId": "GetApiUsersConfirmEmail",
         "parameters": [
           {
             "name": "userId",
@@ -179,7 +179,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ResendEmailRequest"
+                "$ref": "#/components/schemas/ResendConfirmationEmailRequest"
               }
             }
           },
@@ -188,6 +188,41 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Users/forgotPassword": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "PostApiUsersForgotPassword",
+        "requestBody": {
+          "x-name": "resetRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -227,38 +262,12 @@
         }
       }
     },
-    "/api/Users/account/2fa": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "GetApiUsersAccount2fa",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TwoFactorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      },
+    "/api/Users/manage/2fa": {
       "post": {
         "tags": [
           "Users"
         ],
-        "operationId": "PostApiUsersAccount2fa",
+        "operationId": "PostApiUsersManage2fa",
         "requestBody": {
           "x-name": "tfaRequest",
           "description": "",
@@ -303,12 +312,12 @@
         ]
       }
     },
-    "/api/Users/account/info": {
+    "/api/Users/manage/info": {
       "get": {
         "tags": [
           "Users"
         ],
-        "operationId": "GetApiUsersAccountInfo",
+        "operationId": "GetApiUsersManageInfo",
         "responses": {
           "200": {
             "description": "",
@@ -344,7 +353,7 @@
         "tags": [
           "Users"
         ],
-        "operationId": "PostApiUsersAccountInfo",
+        "operationId": "PostApiUsersManageInfo",
         "requestBody": {
           "x-name": "infoRequest",
           "description": "",
@@ -632,13 +641,10 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "username": {
+          "email": {
             "type": "string"
           },
           "password": {
-            "type": "string"
-          },
-          "email": {
             "type": "string"
           }
         }
@@ -647,17 +653,17 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "token_type": {
+          "tokenType": {
             "type": "string"
           },
-          "access_token": {
+          "accessToken": {
             "type": "string"
           },
-          "expires_in": {
+          "expiresIn": {
             "type": "integer",
             "format": "int64"
           },
-          "refresh_token": {
+          "refreshToken": {
             "type": "string"
           }
         }
@@ -666,7 +672,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "username": {
+          "email": {
             "type": "string"
           },
           "password": {
@@ -691,7 +697,16 @@
           }
         }
       },
-      "ResendEmailRequest": {
+      "ResendConfirmationEmailRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "ForgotPasswordRequest": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -708,12 +723,10 @@
             "type": "string"
           },
           "resetCode": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "newPassword": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
@@ -770,11 +783,11 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "username": {
-            "type": "string"
-          },
           "email": {
             "type": "string"
+          },
+          "isEmailConfirmed": {
+            "type": "boolean"
           },
           "claims": {
             "type": "object",
@@ -788,10 +801,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "newUsername": {
-            "type": "string",
-            "nullable": true
-          },
           "newEmail": {
             "type": "string",
             "nullable": true

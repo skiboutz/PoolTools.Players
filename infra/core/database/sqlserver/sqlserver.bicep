@@ -19,7 +19,7 @@ resource sqlServer 'Microsoft.Sql/servers@2023-02-01-preview' = {
   location: location
   tags: tags
   properties: {
-    version: ''
+    version: '12.0'
     minimalTlsVersion: '1.2'
     publicNetworkAccess: 'Enabled'
     administratorLogin: sqlAdmin
