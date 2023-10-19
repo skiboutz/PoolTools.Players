@@ -43,7 +43,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --filter TestCategory=UT
+        run: dotnet test --no-build --filter TestCategory=UT
 
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
