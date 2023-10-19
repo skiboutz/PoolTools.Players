@@ -8,7 +8,8 @@
         <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
 		<RootNamespace>PoolTools.Player.Web</RootNamespace>
 		<AssemblyName>PoolTools.Player.Web</AssemblyName>
-    </PropertyGroup>
+      <UserSecretsId>b0881832-7887-46a7-86f6-4495323daad8</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Application\Application.csproj" />

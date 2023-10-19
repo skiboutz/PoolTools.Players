@@ -15,10 +15,15 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = "";
+        var connectionStringKey = configuration["AZURE_SQL_CONNECTION_STRING_KEY"];
+        if (!string.IsNullOrWhiteSpace(connectionStringKey))
+        {
+            connectionString = configuration[connectionStringKey];
+        }
 
-        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
-
+        Guard.Against.Null(connectionString, message: "Connection string referenced by key 'AZURE_SQL_CONNECTION_STRING_KEY' not found.");
+        
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
