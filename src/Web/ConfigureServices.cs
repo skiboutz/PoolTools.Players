@@ -71,8 +71,8 @@ public static class ConfigureServices
 
     public static IServiceCollection AddKeyVaultIfConfigured(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var keyVaultUri = configuration["KeyVaultUri"];
-        if (!string.IsNullOrWhiteSpace(keyVaultUri))
+        var keyVaultUri = configuration["AZURE_KEY_VAULT_ENDPOINT"];
+        if (!string.IsNullOrWhiteSpace(keyVaultUri) && bool.Parse(configuration["UseKeyVault"]) == true)
         {
             configuration.AddAzureKeyVault(
                 new Uri(keyVaultUri),

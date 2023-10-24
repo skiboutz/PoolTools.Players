@@ -1,5 +1,4 @@
 using PoolTools.Player.Application.Common.Interfaces;
-using PoolTools.Player.Application.Common.Security;
 
 namespace PoolTools.Player.Application.Players.Queries.GetPlayers;
 
