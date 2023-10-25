@@ -1,13 +1,11 @@
 ﻿using System.Reflection;
 using PoolTools.Player.Application.Common.Interfaces;
-using PoolTools.Player.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PoolTools.Player.Domain.Entities;
 
 namespace PoolTools.Player.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : DbContext,IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

@@ -1,8 +1,6 @@
 ﻿using PoolTools.Player.Application.Common.Interfaces;
-using PoolTools.Player.Domain.Constants;
 using PoolTools.Player.Infrastructure.Data;
 using PoolTools.Player.Infrastructure.Data.Interceptors;
-using PoolTools.Player.Infrastructure.Identity;
 using PoolTools.Player.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,17 +41,7 @@ public static class ConfigureServices
 
         services.AddAuthorizationBuilder();
 
-        services
-            .AddIdentityCore<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddApiEndpoints();
-
         services.AddTransient<IDateTime, DateTimeService>();
-        services.AddTransient<IIdentityService, IdentityService>();
-
-        services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
 
         return services;
     }
