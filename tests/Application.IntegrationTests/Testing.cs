@@ -1,11 +1,10 @@
-﻿using PoolTools.Player.Domain.Constants;
-using PoolTools.Player.Infrastructure.Data;
-using PoolTools.Player.Infrastructure.Identity;
+﻿using PoolTools.Player.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PoolTools.Player.Domain.Common;
+using PoolTools.Player.Infrastructure.Identity;
 
 namespace PoolTools.Player.Application.IntegrationTests;
 
@@ -50,48 +49,29 @@ public partial class Testing
         return _userId;
     }
 
-    public static async Task<string> RunAsDefaultUserAsync()
+    // public static async Task<string> RunAsDefaultUserAsync()
+    // {
+    //     return await RunAsUserAsync("test@local", "Testing1234!", Array.Empty<string>());
+    // }
+
+    // public static async Task<string> RunAsAdministratorAsync()
+    // {
+    //     return RunAsUserAsync("administrator@local", "Administrator1234!", ["Administrator"]);
+    // }
+
+    public static string RunAsUser(string userName, string[] claims)
     {
-        return await RunAsUserAsync("test@local", "Testing1234!", Array.Empty<string>());
-    }
+        var tokenBuilder = new BearerTokenBuilder()
+                            .ForAudience("https://localhost:5001")
+                            .IssuedBy("dotnet-user-jwts");
 
-    public static async Task<string> RunAsAdministratorAsync()
-    {
-        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { Roles.Administrator });
-    }
-
-    public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
-    {
-        using var scope = _scopeFactory.CreateScope();
-
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-        var user = new ApplicationUser { UserName = userName, Email = userName };
-
-        var result = await userManager.CreateAsync(user, password);
-
-        if (roles.Any())
+        foreach (var claim in claims)
         {
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            foreach (var role in roles)
-            {
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-
-            await userManager.AddToRolesAsync(user, roles);
+            tokenBuilder.WithClaim("scope", claim);
         }
 
-        if (result.Succeeded)
-        {
-            _userId = user.Id;
+        return tokenBuilder.BuildToken();
 
-            return _userId;
-        }
-
-        var errors = string.Join(Environment.NewLine, result.ToApplicationResult().Errors);
-
-        throw new Exception($"Unable to create {userName}.{Environment.NewLine}{errors}");
     }
 
     public static async Task ResetState()

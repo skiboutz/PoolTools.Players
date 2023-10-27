@@ -25,7 +25,7 @@ public static class ConfigureServices
         services.AddExceptionHandler<CustomExceptionHandler>();
 
         services.AddRazorPages();
-
+        
         services.AddScoped(provider =>
         {
             var validationRules = provider.GetService<IEnumerable<FluentValidationRule>>();
@@ -65,6 +65,17 @@ public static class ConfigureServices
                     c.InstanceName = "PlayerApi";
                     c.Configuration = "localhost:6379";
                 });
+
+        services.AddAuthentication().AddJwtBearer(opt => opt.IncludeErrorDetails = true);
+        services.AddAuthentication("Bearer");
+
+        services.AddAuthorizationBuilder()
+            .AddPolicy("player_read", policy =>
+                policy.RequireClaim("scope","player_read")
+            )
+            .AddPolicy("player_write", policy =>
+                policy.RequireClaim("scope","player_write")
+            );
 
         return services;
     }

@@ -22,7 +22,7 @@ public class GetPlayerByIdTests : BaseTestFixture
     [Test]
     public async Task ShouldNotFoundInexistantPlayer()
     {
-        await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_read"]);
 
         var playerGenerator = new Faker<Domain.Entities.Player>()
             .RuleFor(p => p.FirstName, f => f.Person.FirstName)
@@ -42,7 +42,7 @@ public class GetPlayerByIdTests : BaseTestFixture
     [Test]
     public async Task ShouldReturnExistingPlayer()
     {
-        await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_read"]);
 
         var team = new Team { Code = "TST", City = "Testville", Name = "Testers" };
         var teamId = await AddAsync(team);

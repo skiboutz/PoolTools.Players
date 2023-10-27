@@ -15,20 +15,18 @@ public class PerformanceTests
 {
     private Mock<ILogger<AddPlayerCommand>> _logger;
     private Mock<IUser> _user;
-    private Mock<IIdentityService> _identityService;
 
     [SetUp]
     public void Setup()
     {
         _logger = new Mock<ILogger<AddPlayerCommand>>();
         _user = new Mock<IUser>();
-        _identityService = new Mock<IIdentityService>();
     }
 
     [Test]
     public async Task ShouldNotLogIfShortRunningRequest()
     {
-        var requestPerformance = new PerformanceBehaviour<AddPlayerCommand, int>(_logger.Object, _user.Object,_identityService.Object);
+        var requestPerformance = new PerformanceBehaviour<AddPlayerCommand, int>(_logger.Object, _user.Object);
         var command = new AddPlayerCommand { NewPlayer = new AddPlayerDto { FirstName = "Test", LastName = "Player", Position = "C", Team = "TST", DateOfBirth = DateTime.Now.AddYears(-20) } };
 
         await requestPerformance.Handle(command, async () => await RequestHandler(100), CancellationToken.None);
@@ -39,7 +37,7 @@ public class PerformanceTests
     [Test]
     public async Task ShouldLogIfLongRunningRequest()
     {
-        var requestPerformance = new PerformanceBehaviour<AddPlayerCommand, int>(_logger.Object, _user.Object, _identityService.Object);
+        var requestPerformance = new PerformanceBehaviour<AddPlayerCommand, int>(_logger.Object, _user.Object);
         var command = new AddPlayerCommand { NewPlayer = new AddPlayerDto { FirstName = "Test", LastName = "Player", Position = "C", Team = "TST" , DateOfBirth = DateTime.Now.AddYears(-20) } };
 
         await requestPerformance.Handle(command, async () => await RequestHandler(600), CancellationToken.None);

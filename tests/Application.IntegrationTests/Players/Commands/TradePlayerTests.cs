@@ -21,7 +21,7 @@ public class TradePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireNewTeam()
     {
-        await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_write"]);
         
         await AddAsync(new Team { Code = "TST", City = "Testville", Name = "Testers" });
         var playerId = await SendAsync(new AddPlayerCommand { NewPlayer = new AddPlayerDto { FirstName = "Test", LastName = "Player", Position = "C", Team = "TST", DateOfBirth = DateTime.Now.AddYears(-20) } });
@@ -33,7 +33,7 @@ public class TradePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireExistingTeam()
     {
-        await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_write"]);
         await AddAsync(new Team { Code = "TST", City = "Testville", Name = "Testers" });
         var playerId = await SendAsync(new AddPlayerCommand { NewPlayer = new AddPlayerDto { FirstName = "Test", LastName = "Player", Position = "C", Team = "TST", DateOfBirth = DateTime.Now.AddYears(-20) } });
 
@@ -44,7 +44,7 @@ public class TradePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireExistingPlayer()
     {
-        await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_write"]);
         var command = new TradePlayerCommand { PlayerId = 1, NewTeamCode = "NEW" };
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<ValidationException>();
     }
@@ -52,7 +52,7 @@ public class TradePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldTradePlayer()
     {
-        var userId = await RunAsDefaultUserAsync();
+        var token = RunAsUser("testuser@test.com",["player_write"]);
 
         await AddAsync(new Team { Code = "TST", City = "Testville", Name = "Testers" });
         await AddAsync(new Team { Code = "NEW", City = "Newville", Name = "Testers" });
@@ -73,7 +73,7 @@ public class TradePlayerTests : BaseTestFixture
         player!.Team.Should().NotBeNull();
         player.Team!.Code.Should().Be("NEW");
         player.LastModifiedBy.Should().NotBeNull();
-        player.LastModifiedBy.Should().Be(userId);
+        player.LastModifiedBy.Should().Be("testuser@test.com");
         player.LastModified.Should().NotBeNull();
         player.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }

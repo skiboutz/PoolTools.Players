@@ -16,6 +16,7 @@ public static class PlayerEndpoints
         var group = routes.MapGroup("/api/Player").WithTags(nameof(Player));
 
         group.MapGet("/", async (IMediator mediator, CancellationToken cancellationToken) => await mediator.Send(new GetPlayersQuery(), cancellationToken))
+        .RequireAuthorization("player_read")
         .CacheOutput(c => c.Expire(TimeSpan.FromHours(1)))
         .WithName("GetAllPlayers")
         .WithOpenApi();
@@ -28,6 +29,7 @@ public static class PlayerEndpoints
 
             return foundPlayer is null ? TypedResults.NotFound() : TypedResults.Ok(foundPlayer);
         })
+        .RequireAuthorization("player_read")
         .CacheOutput(c => c.Expire(TimeSpan.FromHours(1)))
         .WithName("GetPlayerById")
         .WithOpenApi();
@@ -49,6 +51,7 @@ public static class PlayerEndpoints
             }
 
         })
+        .RequireAuthorization("player_write")
         .WithName("TradePlayer")
         .WithOpenApi();
 
@@ -60,6 +63,7 @@ public static class PlayerEndpoints
 
             return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
         })
+        .RequireAuthorization("player_write")
         .WithName("ReleasePlayer")
         .WithOpenApi();
 
@@ -71,6 +75,7 @@ public static class PlayerEndpoints
 
             return TypedResults.Created($"/api/Player/{playerId}");
         })
+        .RequireAuthorization("player_write")
         .WithName("CreatePlayer")
         .WithOpenApi();
 
@@ -82,6 +87,7 @@ public static class PlayerEndpoints
 
             return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
         })
+        .RequireAuthorization("player_write")
         .WithName("DeletePlayer")
         .WithOpenApi();
     }
