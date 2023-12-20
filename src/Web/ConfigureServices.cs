@@ -45,7 +45,7 @@ public static class ConfigureServices
             var fluentValidationSchemaProcessor = sp.CreateScope().ServiceProvider.GetRequiredService<FluentValidationSchemaProcessor>();
 
             // Add the fluent validations schema processor
-            configure.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+            configure.SchemaSettings.SchemaProcessors.Add(fluentValidationSchemaProcessor);
 
             configure.Title = "PoolTools.Player API";
             configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme

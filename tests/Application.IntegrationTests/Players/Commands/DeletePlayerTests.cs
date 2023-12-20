@@ -21,8 +21,6 @@ public class DeletePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldRequireValidPlayerId()
     {
-        await RunAsDefaultUserAsync();
-
         var command = new DeletePlayerCommand { PlayerId = 1};
 
         await FluentActions.Invoking(() =>
@@ -32,7 +30,6 @@ public class DeletePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldDesactivatePlayer()
     {
-        await RunAsDefaultUserAsync();
         var existingTeam = new Team { Code = "TST", City = "Testville", Name = "Testers" };
         await AddAsync(existingTeam);
 

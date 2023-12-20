@@ -29,6 +29,9 @@ resource sqlServer 'Microsoft.Sql/servers@2023-02-01-preview' = {
   resource database 'databases' = {
     name: databaseName
     location: location
+    sku: {
+      name: 'Basic'
+    }
   }
 
   resource firewall 'firewallRules' = {

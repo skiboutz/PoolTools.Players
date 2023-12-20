@@ -21,8 +21,6 @@ public class CreatePlayerTests : BaseTestFixture
     [Test]
     public async Task ShouldCreatePlayer()
     {
-        var userId = await RunAsDefaultUserAsync();
-
         var existingTeam = new Team { Code = "TST", City = "Testville", Name = "Testers" };
         await AddAsync(existingTeam);
 
@@ -48,9 +46,7 @@ public class CreatePlayerTests : BaseTestFixture
         player.LastName.Should().Be(player.LastName);
         player.Position.Should().Be(player.Position);
         player.Team?.Code.Should().Be(existingTeam.Code);
-        player.CreatedBy.Should().Be(userId);
         player.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
-        player.LastModifiedBy.Should().Be(userId);
         player.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }

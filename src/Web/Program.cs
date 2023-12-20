@@ -31,7 +31,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseOutputCache();
 
-app.UseSwaggerUi3(settings =>
+app.UseSwaggerUi(settings =>
 {
     settings.Path = "/api";
     settings.DocumentPath = "/api/specification.json";

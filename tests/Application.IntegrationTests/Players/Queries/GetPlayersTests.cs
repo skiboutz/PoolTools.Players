@@ -10,8 +10,6 @@ public class GetPlayersTests : BaseTestFixture
     [Test]
     public async Task ShouldReturnAllPlayers()
     {
-        await RunAsDefaultUserAsync();
-
         var team = new Team { Code = "TST", City = "Testville", Name = "Testers" };
         var teamId = await AddAsync(team);
 
